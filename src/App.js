@@ -5,34 +5,36 @@ import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import PizzaBlock from "./components/PizzaBlock";
 
-import pizzas from "./pizza.json";
+import { useEffect, useState } from "react";
 
 function App() {
-  return (
-    <div className="wrapper">
-      <Header />
-      <div className="content">
-        <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {pizzas.map((pizza) => (
-              <PizzaBlock
-                title={pizza.title}
-                price={pizza.price}
-                imageUrl={pizza.imageUrl}
-                sizes={pizza.sizes}
-                types={pizza.types}
-              />
-            ))}
-          </div>
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        fetch("https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items").then((res) =>
+            res.json().then((data) => setItems(data))
+        );
+    }, []);
+
+    return (
+        <div className="wrapper">
+            <Header />
+            <div className="content">
+                <div className="container">
+                    <div className="content__top">
+                        <Categories />
+                        <Sort />
+                    </div>
+                    <h2 className="content__title">Все пиццы</h2>
+                    <div className="content__items">
+                        {items.map((pizza) => (
+                            <PizzaBlock key={pizza.id} {...pizza} />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default App;
