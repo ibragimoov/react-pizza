@@ -11,10 +11,14 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items").then((res) =>
-      res.json().then((data) => setItems(data))
+      res.json().then((data) => {
+        setItems(data);
+        setIsLoading(false);
+      })
     );
   }, []);
 
@@ -29,9 +33,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {items.map((pizza) => (
-              <Skeleton key={pizza.id} {...pizza} />
-            ))}
+            {isLoading
+              ? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
+              : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
           </div>
         </div>
       </div>
