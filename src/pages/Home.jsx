@@ -49,6 +49,8 @@ const Home = ({ search }) => {
         <Skeleton key={index} />
     ));
 
+    console.log(pageCount);
+
     return (
         <div className="container">
             <div className="content__top">
