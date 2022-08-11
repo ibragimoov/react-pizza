@@ -27,11 +27,11 @@ const Home = ({ search }) => {
         setIsLoading(true);
         fetch(`https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`).then((res) =>
             res.json().then((data) => {
-                setPageCount(Math.ceil(data.length / 4));
+                setPageCount(Math.ceil(data.length / 8));
             })
         );
         fetch(
-            `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${searchFor}`
+            `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${searchFor}`
         ).then((res) =>
             res.json().then((data) => {
                 setItems(data);
