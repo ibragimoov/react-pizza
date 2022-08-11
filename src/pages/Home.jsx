@@ -38,7 +38,7 @@ const Home = ({ search }) => {
                 setIsLoading(false);
             })
         );
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
     }, [categoryId, sort, search, currentPage]);
 
     const pizzasElements = items.map((pizza) => (

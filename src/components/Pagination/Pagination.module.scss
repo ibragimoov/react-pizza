@@ -35,4 +35,14 @@
             }
         }
     }
+
+    @media (max-width: 499px) {
+        a {
+            width: 35px;
+            height: 35px;
+            line-height: 15px;
+            margin-right: 5px;
+            margin-left: 4px;
+        }
+    }
 }
