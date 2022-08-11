@@ -4,7 +4,8 @@ export default function Sort({ sortType, onChangeSort }) {
     const [isVisible, setIsVisible] = useState(false);
     const list = [
         { name: "популярности", sortType: "rating" },
-        { name: "цене", sortType: "price" },
+        { name: "цене (дешевые)", sortType: "price" },
+        { name: "цене (дорогие)", sortType: "-price" },
         { name: "алфавиту", sortType: "title" },
     ];
 

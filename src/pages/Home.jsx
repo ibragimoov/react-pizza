@@ -16,12 +16,14 @@ const Home = () => {
     });
 
     useEffect(() => {
+        const sortBy = sort.sortType.replace("-", "");
+        const order = sort.sortType.includes("-") ? "desc" : "asc";
+
         setIsLoading(true);
-        console.log(categoryId, sort.sortType);
         fetch(
             `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?${
                 categoryId > 0 ? `category=${categoryId}` : ``
-            }&sortBy=${sort.sortType}&order=desc`
+            }&sortBy=${sortBy}&order=${order}`
         ).then((res) =>
             res.json().then((data) => {
                 setItems(data);
