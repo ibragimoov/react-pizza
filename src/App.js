@@ -14,8 +14,8 @@ function App() {
   const [search, setSearch] = useState("");
 
   return (
-    <SearchContext.Provider value={(search, setSearch)}>
-      <div className="wrapper">
+    <div className="wrapper">
+      <SearchContext.Provider value={{ search, setSearch }}>
         <Header />
         <div className="content">
           <Routes>
@@ -24,8 +24,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
-      </div>
-    </SearchContext.Provider>
+      </SearchContext.Provider>
+    </div>
   );
 }
 
