@@ -18,8 +18,6 @@ export default function Sort() {
         dispatch(setSort(obj));
     };
 
-    console.log(sortType);
-
     return (
         <div className="sort">
             <div className="sort__label">
