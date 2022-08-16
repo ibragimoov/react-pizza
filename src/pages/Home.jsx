@@ -14,6 +14,7 @@ import { SearchContext } from "../App";
 const Home = () => {
     const dispatch = useDispatch();
     const categoryId = useSelector((state) => state.filter.categoryId);
+    const sort = useSelector((state) => state.filter.sort);
 
     const onClickCategory = (id) => {
         dispatch(setCategoryId(id));
@@ -24,10 +25,6 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
-    const [sort, setSort] = useState({
-        name: "популярности",
-        sortType: "rating",
-    });
 
     useEffect(() => {
         const sortBy = sort.sortType.replace("-", "");
@@ -67,10 +64,7 @@ const Home = () => {
                     categoryType={categoryId}
                     onClickCategory={onClickCategory}
                 />
-                <Sort
-                    sortType={sort}
-                    onChangeSort={(sortObj) => setSort(sortObj)}
-                />
+                <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
