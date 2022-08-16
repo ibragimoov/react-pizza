@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { setSort } from "../redux/slices/filterSlice";
 
+const list = [
+    { name: "популярности", sortType: "rating" },
+    { name: "цене (дешевые)", sortType: "price" },
+    { name: "цене (дорогие)", sortType: "-price" },
+    { name: "алфавиту", sortType: "title" },
+];
+
 export default function Sort() {
     const dispatch = useDispatch();
     const sortType = useSelector((state) => state.filter.sort);
     const [isVisible, setIsVisible] = useState(false);
-    const list = [
-        { name: "популярности", sortType: "rating" },
-        { name: "цене (дешевые)", sortType: "price" },
-        { name: "цене (дорогие)", sortType: "-price" },
-        { name: "алфавиту", sortType: "title" },
-    ];
 
     const onChangeSort = (obj) => {
         dispatch(setSort(obj));
