@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 import { setCategoryId } from "../redux/slices/filterSlice";
 
@@ -32,19 +33,19 @@ const Home = () => {
         const searchFor = search ? `&search=${search}` : ``;
 
         setIsLoading(true);
-        fetch(`https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`).then((res) =>
-            res.json().then((data) => {
-                setPageCount(Math.ceil(data.length / 8));
-            })
-        );
-        fetch(
-            `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${searchFor}`
-        ).then((res) =>
-            res.json().then((data) => {
-                setItems(data);
+        axios
+            .get(`https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`)
+            .then((res) => {
+                setPageCount(Math.ceil(res.data.length / 8));
+            });
+        axios
+            .get(
+                `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${searchFor}`
+            )
+            .then((res) => {
+                setItems(res.data);
                 setIsLoading(false);
-            })
-        );
+            });
         // window.scrollTo(0, 0);
     }, [categoryId, sort, search, currentPage]);
 
