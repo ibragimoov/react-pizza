@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -14,7 +14,9 @@ import { SearchContext } from "../App";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { categoryId, sort } = useSelector((state) => state.filter);
+    const { categoryId, sort, currentPage } = useSelector(
+        (state) => state.filter
+    );
 
     const onClickCategory = (id) => {
         dispatch(setCategoryId(id));
@@ -23,7 +25,6 @@ const Home = () => {
     const { search } = useContext(SearchContext);
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
 
     useEffect(() => {
@@ -72,7 +73,7 @@ const Home = () => {
             </div>
             <Pagination
                 pageCount={pageCount}
-                onChangePage={(i) => setCurrentPage(i)}
+                onChangePage={(i) => dispatch(setCurrentPage(i))}
             />
         </div>
     );
