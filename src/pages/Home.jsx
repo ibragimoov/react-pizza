@@ -1,19 +1,29 @@
 import React from "react";
-import { useEffect, useState, useContext } from "react";
+import qs from "qs";
+import { useEffect, useState, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import {
+    setCategoryId,
+    setCurrentPage,
+    setFilters,
+} from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
-import Sort from "../components/Sort";
+import Sort, { sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
 
 const Home = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isSearch = useRef(false);
+    const isMounted = useRef(false);
+
     const { categoryId, sort, currentPage } = useSelector(
         (state) => state.filter
     );
@@ -22,12 +32,7 @@ const Home = () => {
         dispatch(setCategoryId(id));
     };
 
-    const { search } = useContext(SearchContext);
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [pageCount, setPageCount] = useState(0);
-
-    useEffect(() => {
+    const fetchPizzas = () => {
         const sortBy = sort.sortType.replace("-", "");
         const order = sort.sortType.includes("-") ? "desc" : "asc";
         const category = categoryId > 0 ? `category=${categoryId}` : ``;
@@ -47,8 +52,51 @@ const Home = () => {
                 setItems(res.data);
                 setIsLoading(false);
             });
+    };
+
+    const { search } = useContext(SearchContext);
+    const [items, setItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [pageCount, setPageCount] = useState(0);
+
+    useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1));
+
+            const sort = sortList.find((obj) => obj.sortType === params.sortBy);
+
+            dispatch(
+                setFilters({
+                    ...params,
+                    sort,
+                })
+            );
+
+            isSearch.current = true;
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isSearch.current) {
+            fetchPizzas();
+        }
+
+        isSearch.current = false;
         // window.scrollTo(0, 0);
-    }, [categoryId, sort, search, currentPage]);
+    }, [categoryId, sort.sortType, search, currentPage]);
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                sortBy: sort.sortType,
+                categoryId,
+                currentPage,
+            });
+
+            navigate(`?${queryString}`, { replace: true });
+        }
+        isMounted.current = true;
+    }, [categoryId, sort, currentPage]);
 
     const pizzasElements = items.map((pizza) => (
         <PizzaBlock key={pizza.id} {...pizza} />
