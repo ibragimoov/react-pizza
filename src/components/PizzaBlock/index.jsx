@@ -11,6 +11,11 @@ export default function PizzaBlock({
     types,
 }) {
     const dispatch = useDispatch();
+    const item = useSelector((state) =>
+        state.cart.items.find((obj) => obj.id === id)
+    );
+
+    const addedPizzas = item ? item.count : 0;
 
     const typeNames = ["тонкое", "традиционное"];
     const [activeType, setActiveType] = useState(0);
@@ -22,7 +27,7 @@ export default function PizzaBlock({
             title,
             price,
             imageUrl,
-            activeType,
+            type: typeNames[activeType],
             activeSize,
         };
 
@@ -81,7 +86,7 @@ export default function PizzaBlock({
                             />
                         </svg>
                         <span>Добавить</span>
-                        <i>0</i>
+                        {addedPizzas > 0 && <i>{addedPizzas}</i>}
                     </div>
                 </div>
             </div>
