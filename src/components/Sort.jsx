@@ -26,7 +26,6 @@ export default function Sort() {
         const handleClickSort = (event) => {
             if (!event.path.includes(sortRef.current)) {
                 setIsVisible(false);
-                console.log("click outside");
             }
         };
 
