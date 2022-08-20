@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -14,13 +16,29 @@ export default function Sort() {
     const dispatch = useDispatch();
     const sortType = useSelector((state) => state.filter.sort);
     const [isVisible, setIsVisible] = useState(false);
+    const sortRef = useRef();
 
     const onChangeSort = (obj) => {
         dispatch(setSort(obj));
     };
 
+    useEffect(() => {
+        const handleClickSort = (event) => {
+            if (!event.path.includes(sortRef.current)) {
+                setIsVisible(false);
+                console.log("click outside");
+            }
+        };
+
+        document.body.addEventListener("click", handleClickSort);
+
+        return () => {
+            document.body.removeEventListener("click", handleClickSort);
+        };
+    }, []);
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
