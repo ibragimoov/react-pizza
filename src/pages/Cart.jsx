@@ -7,7 +7,11 @@ export const Cart = () => {
     const dispatch = useDispatch();
     const { items } = useSelector((state) => state.cart);
 
-    console.log(items);
+    const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+    const totalSum = items.reduce(
+        (sum, item) => sum + item.price * item.count,
+        0
+    );
 
     return (
         <>
@@ -98,11 +102,11 @@ export const Cart = () => {
                                 <div className="cart__bottom-details">
                                     <span>
                                         {" "}
-                                        Всего пицц: <b>3 шт.</b>{" "}
+                                        Всего пицц: <b>{totalCount} шт.</b>{" "}
                                     </span>
                                     <span>
                                         {" "}
-                                        Сумма заказа: <b>900 ₽</b>{" "}
+                                        Сумма заказа: <b>{totalSum} ₽</b>{" "}
                                     </span>
                                 </div>
                                 <div className="cart__bottom-buttons">
