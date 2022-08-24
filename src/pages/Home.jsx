@@ -72,12 +72,13 @@ const Home = () => {
                 })
             );
 
-            isSearch.current = true;
+            isSearch.current = false;
         }
     }, []);
 
     useEffect(() => {
         if (!isSearch.current) {
+            console.log(1);
             fetchPizzas();
         }
 

@@ -28,15 +28,28 @@ const cartReducer = createSlice({
                 0
             );
         },
-        removeItem: (state, action) => {
-            state.items.filter((item) => item.id !== action.payload);
+        minusItem: (state, action) => {
+            const findItem = state.items.find(
+                (obj) => (obj.id = action.payload)
+            );
+
+            if (findItem) {
+                findItem.count--;
+            }
         },
-        clearItems: (state, action) => {
+        removeItem: (state, action) => {
+            state.items = state.items.filter(
+                (item) => item.id !== action.payload
+            );
+        },
+        clearItems: (state) => {
             state.items = [];
+            state.totalPrice = 0;
         },
     },
 });
 
-export const { addItem, removeItem, clearItems } = cartReducer.actions;
+export const { addItem, removeItem, minusItem, clearItems } =
+    cartReducer.actions;
 
 export default cartReducer.reducer;
