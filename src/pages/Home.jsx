@@ -10,6 +10,7 @@ import {
     setCurrentPage,
     setFilters,
 } from "../redux/slices/filterSlice";
+import { setItems, fetchPizzas } from "../redux/slices/pizzaSlice";
 
 import Categories from "../components/Categories";
 import Sort, { sortList } from "../components/Sort";
@@ -27,36 +28,36 @@ const Home = () => {
     const { categoryId, sort, currentPage } = useSelector(
         (state) => state.filter
     );
+    const { items, status } = useSelector((state) => state.pizza);
 
     const onClickCategory = (id) => {
         dispatch(setCategoryId(id));
     };
 
-    const fetchPizzas = () => {
+    const getPizzas = async () => {
         const sortBy = sort.sortType.replace("-", "");
         const order = sort.sortType.includes("-") ? "desc" : "asc";
         const category = categoryId > 0 ? `category=${categoryId}` : ``;
         const searchFor = search ? `&search=${search}` : ``;
 
-        setIsLoading(true);
-        axios
-            .get(`https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`)
-            .then((res) => {
-                setPageCount(Math.ceil(res.data.length / 8));
-            });
-        axios
-            .get(
-                `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${searchFor}`
-            )
-            .then((res) => {
-                setItems(res.data);
-                setIsLoading(false);
-            });
+        const { data } = await axios.get(
+            `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`
+        );
+
+        dispatch(
+            fetchPizzas({
+                sortBy,
+                order,
+                category,
+                searchFor,
+                currentPage,
+            })
+        );
+
+        setPageCount(Math.ceil(data.length / 8));
     };
 
     const { search } = useContext(SearchContext);
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [pageCount, setPageCount] = useState(0);
 
     useEffect(() => {
@@ -78,8 +79,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!isSearch.current) {
-            console.log(1);
-            fetchPizzas();
+            getPizzas();
         }
 
         isSearch.current = false;
@@ -107,6 +107,8 @@ const Home = () => {
         <Skeleton key={index} />
     ));
 
+    console.log(pageCount);
+
     return (
         <div className="container">
             <div className="content__top">
@@ -117,11 +119,21 @@ const Home = () => {
                 <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {isLoading ? skeletonsElements : pizzasElements}
-            </div>
+            {status === "error" ? (
+                <div className="content__error_info">
+                    <h2>Произошла ошибка 😓</h2>
+                    <p>
+                        К сожалению, не удалось получить питсы. Повторите
+                        попытку позже.
+                    </p>
+                </div>
+            ) : (
+                <div className="content__items">
+                    {status === "loading" ? skeletonsElements : pizzasElements}
+                </div>
+            )}
             <Pagination
-                pageCount={pageCount}
+                pageCount={2}
                 onChangePage={(i) => dispatch(setCurrentPage(i))}
             />
         </div>

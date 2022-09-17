@@ -23,7 +23,9 @@ const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
     };
 
     const onClickRemove = () => {
-        dispatch(removeItem(id));
+        if (window.confirm("Ты действительно хочешь удалить товар?")) {
+            dispatch(removeItem(id));
+        }
     };
 
     return (

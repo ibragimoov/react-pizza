@@ -24,11 +24,10 @@ export default function Sort() {
 
     useEffect(() => {
         const handleClickSort = (event) => {
-            if (!event.path.includes(sortRef.current)) {
+            if (sortRef.current && !event.path.includes(sortRef.current)) {
                 setIsVisible(false);
             }
         };
-
         document.body.addEventListener("click", handleClickSort);
 
         return () => {
