@@ -105,9 +105,15 @@ body {
                     li {
                         padding: 8px 20px;
                     }
+
+                    width: 100%;
                 }
             }
         }
+    }
+
+    @media (max-width: 707px) {
+        padding-top: 0;
     }
 }
 
@@ -129,6 +135,10 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        @media (max-width: 445px) {
+            flex-direction: column;
+        }
     }
 
     .content__items {
@@ -181,6 +191,10 @@ body {
             span {
                 color: darken($color: #b6b6b6, $amount: 50);
             }
+        }
+
+        @media (max-width: 445px) {
+            margin-top: 10px;
         }
     }
 
@@ -285,6 +299,111 @@ body {
                 }
             }
         }
+
+        @media (max-width: 748px) {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            &-img {
+                display: flex;
+                align-items: center;
+                margin-right: 0px;
+                justify-content: center;
+                margin-left: 10px;
+
+                img {
+                    width: 120px;
+                    height: 120px;
+                }
+            }
+
+            &-info {
+                width: 100%;
+                text-align: center;
+                align-items: center;
+
+                h3 {
+                    font-weight: bold;
+                    font-size: 22px;
+                    line-height: 27px;
+                    letter-spacing: 0.01em;
+                    width: 100%;
+                }
+
+                p {
+                    font-size: 18px;
+                    color: #8d8d8d;
+                    margin-bottom: 10px;
+                }
+            }
+
+            &-count {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 35%;
+                margin-bottom: 10px;
+
+                &-minus {
+                    svg {
+                        path:first-of-type {
+                            display: none;
+                        }
+                    }
+                }
+
+                b {
+                    font-size: 22px;
+                }
+            }
+
+            &-price {
+                width: 100%;
+
+                b {
+                    font-weight: bold;
+                    font-size: 22px;
+                    letter-spacing: 0.01em;
+                }
+            }
+
+            &-remove {
+                justify-content: center;
+                position: absolute;
+                right: 15px;
+                top: 20px;
+
+                .button {
+                    border-color: darken($color: $gray-line, $amount: 10);
+                }
+
+                svg {
+                    transform: rotate(45deg);
+
+                    path {
+                        fill: darken($color: $gray-line, $amount: 15);
+                    }
+                }
+
+                .button {
+                    svg {
+                        width: 11.5px;
+                        height: 11.5px;
+                        position: relative;
+                    }
+                    &:hover,
+                    &:active {
+                        border-color: darken($color: $gray-line, $amount: 80);
+                        background-color: darken(
+                            $color: $gray-line,
+                            $amount: 80
+                        );
+                    }
+                }
+            }
+        }
     }
 
     &__bottom {
@@ -302,6 +421,11 @@ body {
                         color: $orange;
                     }
                 }
+            }
+
+            @media (max-width: 445px) {
+                flex-direction: column;
+                align-items: center;
             }
         }
 
@@ -348,6 +472,15 @@ body {
                 width: 210px;
                 padding: 16px;
             }
+
+            @media (max-width: 445px) {
+                flex-direction: column;
+                align-items: center;
+
+                .pay-btn {
+                    margin-top: 10px;
+                }
+            }
         }
     }
 
@@ -385,6 +518,10 @@ body {
             margin: 0 auto;
             font-weight: 600;
             font-size: 18px;
+        }
+
+        @media (max-width: 707px) {
+            width: 100%;
         }
     }
 }
