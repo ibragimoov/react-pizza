@@ -10,14 +10,14 @@ import {
     setCurrentPage,
     setFilters,
 } from "../redux/slices/filterSlice";
-import { setItems, fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 
 import Categories from "../components/Categories";
 import Sort, { sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
-import { SearchContext } from "../App";
+import { SearchContext } from "../App.js";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -25,10 +25,10 @@ const Home = () => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
 
-    const { categoryId, sort, currentPage } = useSelector(
+    const { categoryId, sort, currentPage, searchValue } = useSelector(
         (state) => state.filter
     );
-    const { items, status } = useSelector((state) => state.pizza);
+    const { items, status } = useSelector(selectPizzaData);
 
     const onClickCategory = (id) => {
         dispatch(setCategoryId(id));
@@ -38,7 +38,7 @@ const Home = () => {
         const sortBy = sort.sortType.replace("-", "");
         const order = sort.sortType.includes("-") ? "desc" : "asc";
         const category = categoryId > 0 ? `category=${categoryId}` : ``;
-        const searchFor = search ? `&search=${search}` : ``;
+        const searchFor = searchValue ? `&search=${searchValue}` : ``;
 
         const { data } = await axios.get(
             `https://62f10ae025d9e8a2e7c49dfa.mockapi.io/items`
@@ -57,7 +57,6 @@ const Home = () => {
         setPageCount(Math.ceil(data.length / 8));
     };
 
-    const { search } = useContext(SearchContext);
     const [pageCount, setPageCount] = useState(0);
 
     useEffect(() => {
@@ -84,7 +83,7 @@ const Home = () => {
 
         isSearch.current = false;
         // window.scrollTo(0, 0);
-    }, [categoryId, sort.sortType, search, currentPage]);
+    }, [categoryId, sort.sortType, searchValue, currentPage]);
 
     useEffect(() => {
         if (isMounted.current) {
@@ -106,8 +105,6 @@ const Home = () => {
     const skeletonsElements = [...new Array(4)].map((_, index) => (
         <Skeleton key={index} />
     ));
-
-    console.log(pageCount);
 
     return (
         <div className="container">
