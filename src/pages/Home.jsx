@@ -1,7 +1,7 @@
 import React from "react";
 import qs from "qs";
 import { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -99,7 +99,9 @@ const Home = () => {
     }, [categoryId, sort, currentPage]);
 
     const pizzasElements = items.map((pizza) => (
-        <PizzaBlock key={pizza.id} {...pizza} />
+        <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
+            <PizzaBlock {...pizza} />
+        </Link>
     ));
 
     const skeletonsElements = [...new Array(4)].map((_, index) => (
