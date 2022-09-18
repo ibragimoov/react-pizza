@@ -1,4 +1,4 @@
-# React Realtor: 🍕
+# React Pizza: 🍕
 
 ## [Live Link: 🔗](http://nextjs-estate-app.vercel.app/)
 
