@@ -1,6 +1,6 @@
-# React Pizza: 🍕
+# React Realtor: 🍕
 
-## [Live Link: 🔗](https://ibragimoov-pizza.vercel.app/)
+## [Live Link: 🔗](http://nextjs-estate-app.vercel.app/)
 
 ## About the Project: 📚
 I have collected all the top and most relevant topics on the + React frontend for 2022, which should be useful to me for employment
