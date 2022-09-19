@@ -4,11 +4,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { selectSort, setSort } from "../redux/slices/filterSlice";
+import {
+    selectSort,
+    setSort,
+    SortPropertyEnum,
+} from "../redux/slices/filterSlice";
 
 type SortItem = {
     name: string;
-    sortType: string;
+    sortType: SortPropertyEnum;
 };
 
 type PopupClick = Event & {
@@ -16,13 +20,13 @@ type PopupClick = Event & {
 };
 
 export const sortList: SortItem[] = [
-    { name: "популярности", sortType: "rating" },
-    { name: "цене (дешевые)", sortType: "price" },
-    { name: "цене (дорогие)", sortType: "-price" },
-    { name: "алфавиту", sortType: "title" },
+    { name: "популярности", sortType: SortPropertyEnum.RATING },
+    { name: "цене (дешевые)", sortType: SortPropertyEnum.PRICE_DESC },
+    { name: "цене (дорогие)", sortType: SortPropertyEnum.PRICE_ASC },
+    { name: "алфавиту", sortType: SortPropertyEnum.TITLE },
 ];
 
-export default function Sort() {
+export default function SortPopup() {
     const dispatch = useDispatch();
     const sortType = useSelector(selectSort);
     const [isVisible, setIsVisible] = useState(false);
