@@ -11,6 +11,10 @@ type SortItem = {
     sortType: string;
 };
 
+type PopupClick = Event & {
+    path: Node[];
+};
+
 export const sortList: SortItem[] = [
     { name: "популярности", sortType: "rating" },
     { name: "цене (дешевые)", sortType: "price" },
@@ -29,8 +33,11 @@ export default function Sort() {
     };
 
     useEffect(() => {
-        const handleClickSort = (event: any) => {
-            if (sortRef.current && !event.path.includes(sortRef.current)) {
+        const handleClickSort = (event: Event) => {
+            const _event = event as PopupClick & {
+                path: Node[];
+            };
+            if (sortRef.current && !_event.path.includes(sortRef.current)) {
                 setIsVisible(false);
             }
         };
