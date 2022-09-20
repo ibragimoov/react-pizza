@@ -34,9 +34,9 @@ const Home: React.FC = () => {
         useSelector(selectFilter);
     const { items, status } = useSelector(selectPizzaData);
 
-    const onClickCategory = (id: number) => {
+    const onClickCategory = React.useCallback((id: number) => {
         dispatch(setCategoryId(id));
-    };
+    }, []);
 
     const getPizzas = async () => {
         const sortBy = sort.sortType.replace("-", "");
@@ -110,7 +110,9 @@ const Home: React.FC = () => {
         isMounted.current = true;
     }, [categoryId, sort, currentPage]);
 
-    const pizzasElements = items.map((pizza: any) => <PizzaBlock {...pizza} />);
+    const pizzasElements = items.map((pizza: any) => (
+        <PizzaBlock key={pizza.id} {...pizza} />
+    ));
 
     const skeletonsElements = [...new Array(4)].map((_, index) => (
         <Skeleton key={index} />

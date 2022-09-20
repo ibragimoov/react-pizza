@@ -46,6 +46,15 @@ body {
         font-size: 38px;
     }
 
+    &__error_info {
+        width: 500px;
+
+        @media (max-width: 590px) {
+            width: 100%;
+            padding: 10px;
+        }
+    }
+
     &__items {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -246,6 +255,27 @@ body {
                 svg {
                     path:first-of-type {
                         display: none;
+                    }
+                }
+
+                &:disabled {
+                    opacity: 0.4;
+                    border-color: #787878;
+
+                    &:active {
+                        transform: none;
+                    }
+
+                    svg path {
+                        fill: #787878;
+                    }
+
+                    &:hover {
+                        background-color: transparent;
+
+                        svg path {
+                            fill: #787878;
+                        }
                     }
                 }
             }

@@ -26,7 +26,7 @@ export const sortList: SortItem[] = [
     { name: "алфавиту", sortType: SortPropertyEnum.TITLE },
 ];
 
-export default function SortPopup() {
+const SortPopup: React.FC = React.memo(() => {
     const dispatch = useDispatch();
     const sortType = useSelector(selectSort);
     const [isVisible, setIsVisible] = useState(false);
@@ -96,4 +96,6 @@ export default function SortPopup() {
             )}
         </div>
     );
-}
+});
+
+export default SortPopup;
